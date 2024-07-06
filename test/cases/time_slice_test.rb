@@ -12,61 +12,61 @@ class TimeSliceTest < TestCase
   it "accepts a period and :length option" do
     range = TimeSlice.new("2h", length: "4")
     assert_equal 4, range.length
-    assert_equal "2019-01-06 10:00:00", range.from.to_fs(:db)
-    assert_equal "2019-01-06 16:00:00", range.to.to_fs(:db)
-    assert_time_range "[2019-01-06 10:00:00, 2019-01-06 12:00:00]", range[0]
-    assert_time_range "[2019-01-06 12:00:00, 2019-01-06 14:00:00]", range[1]
-    assert_time_range "[2019-01-06 14:00:00, 2019-01-06 16:00:00]", range[2]
-    assert_time_range "[2019-01-06 16:00:00, 2019-01-06 18:00:00]", range[3]
+    assert_equal "2019-01-06T10:00:00Z", range.from.iso8601
+    assert_equal "2019-01-06T16:00:00Z", range.to.iso8601
+    assert_time_range "[2019-01-06T10:00:00Z, 2019-01-06T12:00:00Z]", range[0]
+    assert_time_range "[2019-01-06T12:00:00Z, 2019-01-06T14:00:00Z]", range[1]
+    assert_time_range "[2019-01-06T14:00:00Z, 2019-01-06T16:00:00Z]", range[2]
+    assert_time_range "[2019-01-06T16:00:00Z, 2019-01-06T18:00:00Z]", range[3]
 
     range = TimeSlice.new("2h", length: 1)
     assert_equal 1, range.length
-    assert_time_range "[2019-01-06 16:00:00, 2019-01-06 18:00:00]", range[0]
+    assert_time_range "[2019-01-06T16:00:00Z, 2019-01-06T18:00:00Z]", range[0]
   end
 
   it "is enumerable" do
     assert range.each { true }
-    assert_time_range "[[2019-01-06 14:00:00, 2019-01-06 16:00:00], [2019-01-06 16:00:00, 2019-01-06 18:00:00]]", range
+    assert_time_range "[[2019-01-06T14:00:00Z, 2019-01-06T16:00:00Z], [2019-01-06T16:00:00Z, 2019-01-06T18:00:00Z]]", range
   end
 
   it "accepts a :from option" do
     range = TimeSlice.new("5m", from: "2019-01-06 17:20")
-    assert_equal "2019-01-06 17:20:00", range.from.to_fs(:db)
-    assert_equal "2019-01-06 17:40:00", range.to.to_fs(:db)
-    assert_time_range "[2019-01-06 17:20:00, 2019-01-06 17:25:00]", range.first
-    assert_time_range "[2019-01-06 17:40:00, 2019-01-06 17:45:00]", range.last
+    assert_equal "2019-01-06T17:20:00Z", range.from.iso8601
+    assert_equal "2019-01-06T17:40:00Z", range.to.iso8601
+    assert_time_range "[2019-01-06T17:20:00Z, 2019-01-06T17:25:00Z]", range.first
+    assert_time_range "[2019-01-06T17:40:00Z, 2019-01-06T17:45:00Z]", range.last
     assert_equal 5, range.length
 
     range = TimeSlice.new("1m", from: "2019-01-06 17:20")
-    assert_equal "2019-01-06 17:20:00", range.from.to_fs(:db)
-    assert_equal "2019-01-06 17:44:00", range.to.to_fs(:db)
-    assert_time_range "[2019-01-06 17:20:00, 2019-01-06 17:21:00]", range.first
-    assert_time_range "[2019-01-06 17:44:00, 2019-01-06 17:45:00]", range.last
+    assert_equal "2019-01-06T17:20:00Z", range.from.iso8601
+    assert_equal "2019-01-06T17:44:00Z", range.to.iso8601
+    assert_time_range "[2019-01-06T17:20:00Z, 2019-01-06T17:21:00Z]", range.first
+    assert_time_range "[2019-01-06T17:44:00Z, 2019-01-06T17:45:00Z]", range.last
     assert_equal 25, range.length
   end
 
   it "accepts a :from and :to option" do
     range = TimeSlice.new("5m", from: "2019-01-06 17:10", to: "2019-01-06 17:35")
-    assert_equal "2019-01-06 17:10:00", range.from.to_fs(:db)
-    assert_equal "2019-01-06 17:35:00", range.to.to_fs(:db)
-    assert_time_range "[2019-01-06 17:10:00, 2019-01-06 17:15:00]", range.first
-    assert_time_range "[2019-01-06 17:35:00, 2019-01-06 17:40:00]", range.last
+    assert_equal "2019-01-06T17:10:00Z", range.from.iso8601
+    assert_equal "2019-01-06T17:35:00Z", range.to.iso8601
+    assert_time_range "[2019-01-06T17:10:00Z, 2019-01-06T17:15:00Z]", range.first
+    assert_time_range "[2019-01-06T17:35:00Z, 2019-01-06T17:40:00Z]", range.last
     assert_equal 6, range.length
 
     range = TimeSlice.new("5m", from: "2019-01-06 17:10:00", to: "2019-01-06 17:10:05")
-    assert_equal "2019-01-06 17:10:00", range.from.to_fs(:db)
-    assert_equal "2019-01-06 17:10:00", range.to.to_fs(:db)
-    assert_time_range "[2019-01-06 17:10:00, 2019-01-06 17:15:00]", range.first
-    assert_time_range "[2019-01-06 17:10:00, 2019-01-06 17:15:00]", range.last
+    assert_equal "2019-01-06T17:10:00Z", range.from.iso8601
+    assert_equal "2019-01-06T17:10:00Z", range.to.iso8601
+    assert_time_range "[2019-01-06T17:10:00Z, 2019-01-06T17:15:00Z]", range.first
+    assert_time_range "[2019-01-06T17:10:00Z, 2019-01-06T17:15:00Z]", range.last
     assert_equal 1, range.length
   end
 
   it "accepts a :from and :length option" do
     range = TimeSlice.new("5m", from: "2019-01-06 17:10", length: 3)
-    assert_equal "2019-01-06 17:10:00", range.from.to_fs(:db)
-    assert_equal "2019-01-06 17:20:00", range.to.to_fs(:db)
-    assert_time_range "[2019-01-06 17:10:00, 2019-01-06 17:15:00]", range.first
-    assert_time_range "[2019-01-06 17:20:00, 2019-01-06 17:25:00]", range.last
+    assert_equal "2019-01-06T17:10:00Z", range.from.iso8601
+    assert_equal "2019-01-06T17:20:00Z", range.to.iso8601
+    assert_time_range "[2019-01-06T17:10:00Z, 2019-01-06T17:15:00Z]", range.first
+    assert_time_range "[2019-01-06T17:20:00Z, 2019-01-06T17:25:00Z]", range.last
     assert_equal 3, range.length
   end
 
@@ -90,11 +90,11 @@ class TimeSliceTest < TestCase
   it "gets previous times" do
     range = TimeSlice.new("5m", from: "2019-01-06 17:00", to: "2019-01-06 17:35")
     prev = range.previous("2019-01-06 17:20:00", 3)
-    assert_equal "2019-01-06 17:05:00", prev.from.to_fs(:db)
-    assert_equal "2019-01-06 17:15:00", prev.to.to_fs(:db)
-    assert_time_range "[2019-01-06 17:05:00, 2019-01-06 17:10:00]", prev[0]
-    assert_time_range "[2019-01-06 17:10:00, 2019-01-06 17:15:00]", prev[1]
-    assert_time_range "[2019-01-06 17:15:00, 2019-01-06 17:20:00]", prev[2]
+    assert_equal "2019-01-06T17:05:00Z", prev.from.iso8601
+    assert_equal "2019-01-06T17:15:00Z", prev.to.iso8601
+    assert_time_range "[2019-01-06T17:05:00Z, 2019-01-06T17:10:00Z]", prev[0]
+    assert_time_range "[2019-01-06T17:10:00Z, 2019-01-06T17:15:00Z]", prev[1]
+    assert_time_range "[2019-01-06T17:15:00Z, 2019-01-06T17:20:00Z]", prev[2]
     assert_equal 3, prev.length
   end
 
@@ -106,20 +106,20 @@ class TimeSliceTest < TestCase
   it "correctly handles different time periods" do
     range = TimeSlice.new("15m", from: "2019-01-06 12:00", to: "2019-01-06 13:00")
     assert_equal 5, range.length
-    assert_time_range "[2019-01-06 12:00:00, 2019-01-06 12:15:00]", range.first
-    assert_time_range "[2019-01-06 13:00:00, 2019-01-06 13:15:00]", range.last
+    assert_time_range "[2019-01-06T12:00:00Z, 2019-01-06T12:15:00Z]", range.first
+    assert_time_range "[2019-01-06T13:00:00Z, 2019-01-06T13:15:00Z]", range.last
 
     range = TimeSlice.new("1d", from: "2019-01-01", to: "2019-01-05")
     assert_equal 5, range.length
-    assert_time_range "[2019-01-01 00:00:00, 2019-01-02 00:00:00]", range.first
-    assert_time_range "[2019-01-05 00:00:00, 2019-01-06 00:00:00]", range.last
+    assert_time_range "[2019-01-01T00:00:00Z, 2019-01-02T00:00:00Z]", range.first
+    assert_time_range "[2019-01-05T00:00:00Z, 2019-01-06T00:00:00Z]", range.last
   end
 
   it "handles empty ranges" do
     range = TimeSlice.new("1h", from: "2019-01-06 12:00", to: "2019-01-06 12:00")
     assert_equal 1, range.length
-    assert_time_range "[2019-01-06 12:00:00, 2019-01-06 13:00:00]", range.first
-    assert_time_range "[2019-01-06 12:00:00, 2019-01-06 13:00:00]", range.last
+    assert_time_range "[2019-01-06T12:00:00Z, 2019-01-06T13:00:00Z]", range.first
+    assert_time_range "[2019-01-06T12:00:00Z, 2019-01-06T13:00:00Z]", range.last
   end
 
   it "correctly implements the Enumerable interface" do
@@ -153,11 +153,11 @@ class TimeSliceTest < TestCase
   it "correctly handles previous method with edge cases" do
     range = TimeSlice.new("1h", from: "2019-01-06 12:00", to: "2019-01-06 15:00")
     prev = range.previous("2019-01-06 13:00", 2)
-    assert_time_range "[2019-01-06 11:00:00, 2019-01-06 12:00:00]", prev.first
-    assert_time_range "[2019-01-06 12:00:00, 2019-01-06 13:00:00]", prev.last
+    assert_time_range "[2019-01-06T11:00:00Z, 2019-01-06T12:00:00Z]", prev.first
+    assert_time_range "[2019-01-06T12:00:00Z, 2019-01-06T13:00:00Z]", prev.last
 
     prev = range.previous("2019-01-06 12:00", 2)
-    assert_time_range "[2019-01-06 10:00:00, 2019-01-06 11:00:00]", prev.first
-    assert_time_range "[2019-01-06 11:00:00, 2019-01-06 12:00:00]", prev.last
+    assert_time_range "[2019-01-06T10:00:00Z, 2019-01-06T11:00:00Z]", prev.first
+    assert_time_range "[2019-01-06T11:00:00Z, 2019-01-06T12:00:00Z]", prev.last
   end
 end

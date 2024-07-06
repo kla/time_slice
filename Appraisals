@@ -1,14 +1,7 @@
-appraise "ruby-2.7" do
+appraise "activesupport-6.1" do
+  gem "activesupport", "~> 6.1.0"
 end
 
-appraise "ruby-3.0" do
-end
-
-appraise "ruby-3.1" do
-end
-
-appraise "ruby-3.2" do
-end
-
-appraise "ruby-3.3" do
+appraise "activesupport-7.1" do
+  gem "activesupport", "~> 7.1.0"
 end

@@ -1,4 +1,5 @@
 require "minitest/autorun"
+require "minitest/focus"
 require "mocha/minitest"
 require_relative "../lib/time_slice"
 
@@ -13,7 +14,7 @@ class TestCase < Minitest::Spec
     end
 
     times = times
-      .map { |times| times.map { |t| t.to_fs(:db) } }
+      .map { |times| times.map { |t| t.iso8601 } }
       .map { |times| "[#{times.join(", ")}]" }
       .join(", ")
 

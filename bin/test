@@ -1,4 +1,5 @@
 #!/bin/sh
 
 echo "== Running tests =="
+[ "${CI}" = "1" ] && bundle info activesupport
 bundle exec rake test "$@"
