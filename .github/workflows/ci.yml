@@ -7,6 +7,10 @@ env:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: ["2.7", "3.0", "3.1", "3.2", "3.3"]
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -16,5 +20,7 @@ jobs:
           path: vendor/bundle
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}-v1
       - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
       - run: bin/setup
       - run: bin/test
