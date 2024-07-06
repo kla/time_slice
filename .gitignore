@@ -1,0 +1,14 @@
+*.gem
+.bundle
+.config
+Gemfile.lock
+test/reports
+test/tmp
+tmp
+.env.*
+.DS_Store
+.irb_history
+
+# Appraisal files
+gemfiles/*.gemfile.lock
+gemfiles/.bundle/
