@@ -4,6 +4,7 @@ Gem::Specification.new do |spec|
   spec.name        = "time_slice"
   spec.version     = TimeSlice::VERSION
   spec.platform    = Gem::Platform::RUBY
+  spec.licenses    = ["MIT"]
   spec.authors     = ["Kien La"]
   spec.email       = ["la.kien@gmail.com"]
   spec.description = "Time slice"
