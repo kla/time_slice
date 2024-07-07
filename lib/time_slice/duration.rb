@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ##
-# The Duration class extends ActiveSupport::Duration to provide a more
+# The TimeSlice::Duration class extends ActiveSupport::Duration to provide a more
 # flexible way of specifying and working with time durations.
 #
 # It allows creation of duration objects from string representations
@@ -19,13 +19,13 @@
 #
 # == Usage
 #
-#   Duration.new("5m")  # => 5 minutes
-#   Duration.new("2h")  # => 2 hours
-#   Duration.new("1d")  # => 1 day
+#   TimeSlice::Duration.new("5m")  # => 5 minutes
+#   TimeSlice::Duration.new("2h")  # => 2 hours
+#   TimeSlice::Duration.new("1d")  # => 1 day
 #
 # == Examples
 #
-#   duration = Duration.new("3h")
+#   duration = TimeSlice::Duration.new("3h")
 #   duration.unit  # => :hours
 #   duration.period  # => "3h"
 #   duration * 2  # => 21600 (number of seconds in 6 hours)
